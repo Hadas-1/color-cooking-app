@@ -34,16 +34,10 @@ export default function HomePage() {
             fontSize: "18px",
             fontWeight: 300,
             letterSpacing: "0.5px",
-            transition: "all 0.2s ease"
+            transition: "all 0.2s ease",
+            textDecoration: "none"
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "#1a1a1a";
-            e.currentTarget.style.color = "#ffffff";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "transparent";
-            e.currentTarget.style.color = "#1a1a1a";
-          }}
+          className="recipe-link"
         >
           {recipe.title}
         </Link>

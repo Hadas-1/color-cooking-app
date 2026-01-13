@@ -50,3 +50,8 @@ button {
   gap: 24px;
 }
 
+.recipe-link:hover {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+}
+

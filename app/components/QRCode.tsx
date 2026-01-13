@@ -9,8 +9,9 @@ const QRCode = dynamic(() => import("react-qr-code"), { ssr: false });
 export default function QRCodeComponent({ url }: { url: string }) {
   const [mounted, setMounted] = useState(false);
   const [fullUrl, setFullUrl] = useState("");
-  const [qrSize, setQrSize] = useState(180);
-  const [qrPadding, setQrPadding] = useState("16px");
+  const [qrSize, setQrSize] = useState(150);
+  const [qrPadding, setQrPadding] = useState("14px");
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -20,9 +21,10 @@ export default function QRCodeComponent({ url }: { url: string }) {
       
       // Determine QR code size based on screen width
       const updateQrSize = () => {
-        const isMobile = window.innerWidth <= 480;
-        setQrSize(isMobile ? 150 : 180);
-        setQrPadding(isMobile ? "12px" : "16px");
+        const mobile = window.innerWidth <= 480;
+        setIsMobile(mobile);
+        setQrSize(mobile ? 150 : 140); // Smaller on desktop (140px), same on mobile (150px)
+        setQrPadding(mobile ? "12px" : "12px");
       };
       
       updateQrSize();
@@ -82,6 +84,7 @@ export default function QRCodeComponent({ url }: { url: string }) {
       <p
         style={{
           margin: "16px 0 0",
+          marginBottom: isMobile ? "16px" : "0",
           fontSize: "13px",
           color: "#666",
           fontWeight: 300

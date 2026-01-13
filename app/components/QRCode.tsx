@@ -12,6 +12,8 @@ export default function QRCodeComponent({ url }: { url: string }) {
   const [qrSize, setQrSize] = useState(150);
   const [qrPadding, setQrPadding] = useState("14px");
   const [isMobile, setIsMobile] = useState(false);
+  const [qrMarginTop, setQrMarginTop] = useState("32px");
+  const [qrMarginBottom, setQrMarginBottom] = useState("32px");
 
   useEffect(() => {
     setMounted(true);
@@ -25,6 +27,9 @@ export default function QRCodeComponent({ url }: { url: string }) {
         setIsMobile(mobile);
         setQrSize(mobile ? 150 : 130); // Smaller on desktop (130px), same on mobile (150px)
         setQrPadding(mobile ? "12px" : "12px");
+        // Increase margins on mobile
+        setQrMarginTop(mobile ? "40px" : "32px");
+        setQrMarginBottom(mobile ? "40px" : "32px");
       };
       
       updateQrSize();
@@ -57,7 +62,7 @@ export default function QRCodeComponent({ url }: { url: string }) {
   }
 
   return (
-    <div style={{ textAlign: "center", marginTop: "32px", marginBottom: "32px" }}>
+    <div style={{ textAlign: "center", marginTop: qrMarginTop, marginBottom: qrMarginBottom }}>
       <div
         className="qr-code-wrapper"
         style={{

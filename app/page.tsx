@@ -13,7 +13,7 @@ export default function HomePage() {
   }, []);
   return (
     <main className="container">
-      <div style={{ textAlign: "center", paddingTop: "60px", paddingBottom: "32px" }}>
+      <div style={{ textAlign: "center", paddingTop: "60px", paddingBottom: "0" }}>
         <h1
           style={{
             margin: "0 0 12px",

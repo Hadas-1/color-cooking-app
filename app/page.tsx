@@ -1,5 +1,6 @@
 import Link from "next/link";
 import recipe from "../data/recipes/sample.json";
+import QRCodeComponent from "./components/QRCode";
 
 export default function HomePage() {
   return (
@@ -21,7 +22,9 @@ export default function HomePage() {
         </p>
       </div>
 
-      <div style={{ marginTop: "60px" }}>
+      <QRCodeComponent url={`/recipes/${recipe.id}/1`} />
+
+      <div style={{ marginTop: "40px" }}>
         <Link
           href={`/recipes/${recipe.id}/1`}
           style={{

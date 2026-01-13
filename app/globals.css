@@ -55,3 +55,10 @@ button {
   color: #ffffff !important;
 }
 
+/* Ensure color circles stay perfectly round on all devices */
+.color-circle {
+  aspect-ratio: 1;
+  min-width: 0;
+  min-height: 0;
+}
+

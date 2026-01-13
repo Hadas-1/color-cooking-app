@@ -230,16 +230,16 @@ export default function RecipeStepClient({ params }: { params: { id: string; ste
   return (
     <main
       className="container"
-      style={{ paddingTop: "20px", paddingBottom: "40px" }}
+      style={{ paddingTop: "16px", paddingBottom: "20px" }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
       {/* Recipe title */}
-      <div style={{ marginBottom: "30px" }}>
+      <div style={{ marginBottom: "20px" }}>
         <h1
           style={{
-            margin: "0 0 8px",
-            fontSize: "28px",
+            margin: "0 0 6px",
+            fontSize: "24px",
             fontWeight: 300,
             letterSpacing: "-0.5px",
             color: "#1a1a1a"
@@ -251,12 +251,12 @@ export default function RecipeStepClient({ params }: { params: { id: string; ste
 
       {/* Ingredient color bar */}
       {ingredients.length > 0 && (
-        <div style={{ marginBottom: "40px" }}>
+        <div style={{ marginBottom: "24px" }}>
           <div
             style={{
               display: "flex",
               gap: "2px",
-              height: "40px",
+              height: "32px",
               borderRadius: "0",
               overflow: "visible",
               position: "relative"
@@ -289,33 +289,34 @@ export default function RecipeStepClient({ params }: { params: { id: string; ste
       )}
 
       {/* Color comparison - side by side at top */}
-      <div style={{ marginBottom: "50px", textAlign: "center" }}>
+      <div style={{ marginBottom: "28px", textAlign: "center" }}>
         <div
           style={{
             display: "flex",
-            gap: "30px",
+            gap: "12px",
             justifyContent: "center",
             alignItems: "flex-start",
-            marginBottom: "20px"
+            marginBottom: "12px"
           }}
         >
-          <div style={{ textAlign: "center", flex: 1, maxWidth: "200px" }}>
+          <div style={{ textAlign: "center", flex: "0 0 auto" }}>
             <div
+              className="color-circle"
               style={{
-                width: "100%",
-                maxWidth: "200px",
-                height: "200px",
-                margin: "0 auto 12px",
+                width: "120px",
+                height: "120px",
+                margin: "0 auto 8px",
                 borderRadius: "50%",
                 background: `rgb(${targetColor.r}, ${targetColor.g}, ${targetColor.b})`,
                 boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                border: "1px solid rgba(0,0,0,0.05)"
+                border: "1px solid rgba(0,0,0,0.05)",
+                flexShrink: 0
               }}
             />
             <p
               style={{
                 margin: 0,
-                fontSize: "14px",
+                fontSize: "12px",
                 color: "#666",
                 fontWeight: 300,
                 letterSpacing: "0.5px"
@@ -325,23 +326,24 @@ export default function RecipeStepClient({ params }: { params: { id: string; ste
             </p>
           </div>
           {stepState.result && (
-            <div style={{ textAlign: "center", flex: 1, maxWidth: "200px" }}>
+            <div style={{ textAlign: "center", flex: "0 0 auto" }}>
               <div
+                className="color-circle"
                 style={{
-                  width: "100%",
-                  maxWidth: "200px",
-                  height: "200px",
-                  margin: "0 auto 12px",
+                  width: "120px",
+                  height: "120px",
+                  margin: "0 auto 8px",
                   borderRadius: "50%",
                   background: `rgb(${stepState.result.average.r}, ${stepState.result.average.g}, ${stepState.result.average.b})`,
                   boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                  border: "1px solid rgba(0,0,0,0.05)"
+                  border: "1px solid rgba(0,0,0,0.05)",
+                  flexShrink: 0
                 }}
               />
               <p
                 style={{
                   margin: 0,
-                  fontSize: "14px",
+                  fontSize: "12px",
                   color: "#666",
                   fontWeight: 300,
                   letterSpacing: "0.5px"
@@ -355,11 +357,11 @@ export default function RecipeStepClient({ params }: { params: { id: string; ste
       </div>
 
       {/* Instructions */}
-      <div style={{ marginBottom: "50px" }}>
+      <div style={{ marginBottom: "24px" }}>
         <div
           style={{
-            marginBottom: "12px",
-            fontSize: "13px",
+            marginBottom: "8px",
+            fontSize: "11px",
             color: "#999",
             fontWeight: 300,
             letterSpacing: "1px",
@@ -370,8 +372,8 @@ export default function RecipeStepClient({ params }: { params: { id: string; ste
         </div>
         <h2
           style={{
-            margin: "0 0 16px",
-            fontSize: "24px",
+            margin: "0 0 12px",
+            fontSize: "20px",
             fontWeight: 300,
             letterSpacing: "-0.3px",
             color: "#1a1a1a"
@@ -382,8 +384,8 @@ export default function RecipeStepClient({ params }: { params: { id: string; ste
         <p
           style={{
             margin: 0,
-            fontSize: "16px",
-            lineHeight: "1.6",
+            fontSize: "15px",
+            lineHeight: "1.5",
             color: "#333",
             fontWeight: 300
           }}
@@ -393,16 +395,16 @@ export default function RecipeStepClient({ params }: { params: { id: string; ste
       </div>
 
       {/* Photo upload - Main CTA */}
-      <div style={{ marginBottom: "30px" }}>
+      <div style={{ marginBottom: "20px" }}>
         <label
           htmlFor="photo-upload"
           style={{
             display: "block",
             width: "100%",
-            padding: "20px",
+            padding: "16px",
             background: "#1a1a1a",
             color: "#ffffff",
-            fontSize: "18px",
+            fontSize: "16px",
             fontWeight: 300,
             letterSpacing: "0.5px",
             textAlign: "center",
@@ -434,8 +436,8 @@ export default function RecipeStepClient({ params }: { params: { id: string; ste
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginTop: "40px",
-          paddingTop: "20px",
+          marginTop: "20px",
+          paddingTop: "16px",
           borderTop: "1px solid #e0e0e0"
         }}
       >

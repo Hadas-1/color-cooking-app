@@ -9,12 +9,28 @@ const QRCode = dynamic(() => import("react-qr-code"), { ssr: false });
 export default function QRCodeComponent({ url }: { url: string }) {
   const [mounted, setMounted] = useState(false);
   const [fullUrl, setFullUrl] = useState("");
+  const [qrSize, setQrSize] = useState(180);
+  const [qrPadding, setQrPadding] = useState("16px");
 
   useEffect(() => {
     setMounted(true);
     // Get the full URL only on client side
     if (typeof window !== "undefined") {
       setFullUrl(`${window.location.origin}${url}`);
+      
+      // Determine QR code size based on screen width
+      const updateQrSize = () => {
+        const isMobile = window.innerWidth <= 480;
+        setQrSize(isMobile ? 150 : 180);
+        setQrPadding(isMobile ? "12px" : "16px");
+      };
+      
+      updateQrSize();
+      window.addEventListener('resize', updateQrSize);
+      
+      return () => {
+        window.removeEventListener('resize', updateQrSize);
+      };
     }
   }, [url]);
 
@@ -37,24 +53,6 @@ export default function QRCodeComponent({ url }: { url: string }) {
       </div>
     );
   }
-
-  // Determine QR code size based on screen width
-  const [qrSize, setQrSize] = useState(180);
-  const [qrPadding, setQrPadding] = useState("16px");
-  
-  useEffect(() => {
-    const updateQrSize = () => {
-      if (typeof window !== "undefined") {
-        const isMobile = window.innerWidth <= 480;
-        setQrSize(isMobile ? 150 : 180);
-        setQrPadding(isMobile ? "12px" : "16px");
-      }
-    };
-    
-    updateQrSize();
-    window.addEventListener('resize', updateQrSize);
-    return () => window.removeEventListener('resize', updateQrSize);
-  }, []);
 
   return (
     <div style={{ textAlign: "center", marginTop: "32px", marginBottom: "32px" }}>

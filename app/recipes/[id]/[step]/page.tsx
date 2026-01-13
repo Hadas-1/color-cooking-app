@@ -17,6 +17,22 @@ type StoredSession = {
 
 const storageKey = (recipeId: string) => `color-cooking:${recipeId}`;
 
+// Generate static params for static export
+export function generateStaticParams() {
+  const recipe = recipeData;
+  const params = [];
+  
+  // Generate params for each step
+  for (let step = 1; step <= recipe.steps.length; step++) {
+    params.push({
+      id: recipe.id,
+      step: step.toString()
+    });
+  }
+  
+  return params;
+}
+
 // Ingredient color palette - maps common ingredients to their typical colors
 const ingredientColors: Record<string, { r: number; g: number; b: number }> = {
   "coconut milk": { r: 255, g: 250, b: 240 },

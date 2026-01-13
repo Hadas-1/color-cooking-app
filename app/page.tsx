@@ -1,8 +1,16 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import recipe from "../data/recipes/sample.json";
 import QRCodeComponent from "./components/QRCode";
 
 export default function HomePage() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   return (
     <main className="container">
       <div style={{ textAlign: "center", paddingTop: "60px", paddingBottom: "40px" }}>
@@ -22,27 +30,33 @@ export default function HomePage() {
         </p>
       </div>
 
-      <QRCodeComponent url={`/recipes/${recipe.id}/1`} />
+      {mounted && <QRCodeComponent url={`/recipes/${recipe.id}/1`} />}
 
       <div style={{ marginTop: "40px" }}>
         <Link
           href={`/recipes/${recipe.id}/1`}
           style={{
             display: "block",
-            textAlign: "center",
-            padding: "20px",
-            border: "1px solid #1a1a1a",
-            borderRadius: "0",
-            color: "#1a1a1a",
-            fontSize: "18px",
+            width: "100%",
+            padding: "18px",
+            background: "#1a1a1a",
+            color: "#ffffff",
+            fontSize: "17px",
             fontWeight: 300,
             letterSpacing: "0.5px",
+            textAlign: "center",
             transition: "all 0.2s ease",
+            borderRadius: "0",
             textDecoration: "none"
           }}
-          className="recipe-link"
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = "0.9";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = "1";
+          }}
         >
-          {recipe.title}
+          Start cooking
         </Link>
       </div>
     </main>

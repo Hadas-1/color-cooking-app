@@ -1,37 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import QRCode from "react-qr-code";
+import dynamic from "next/dynamic";
+
+// Dynamically import QRCode to avoid SSR issues
+const QRCode = dynamic(() => import("react-qr-code"), { ssr: false });
 
 export default function QRCodeComponent({ url }: { url: string }) {
   const [mounted, setMounted] = useState(false);
+  const [fullUrl, setFullUrl] = useState("");
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    // Get the full URL only on client side
+    if (typeof window !== "undefined") {
+      setFullUrl(`${window.location.origin}${url}`);
+    }
+  }, [url]);
 
-  if (!mounted) {
+  if (!mounted || !fullUrl) {
     return (
-      <div
-        style={{
-          width: "200px",
-          height: "200px",
-          margin: "0 auto",
-          background: "#f5f5f5",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        <p style={{ fontSize: "12px", color: "#999" }}>Loading QR code...</p>
+      <div style={{ textAlign: "center", marginTop: "40px" }}>
+        <div
+          style={{
+            width: "200px",
+            height: "200px",
+            margin: "0 auto",
+            background: "#f5f5f5",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <p style={{ fontSize: "12px", color: "#999" }}>Loading QR code...</p>
+        </div>
       </div>
     );
   }
-
-  // Get the full URL
-  const fullUrl = typeof window !== "undefined" 
-    ? `${window.location.origin}${url}`
-    : url;
 
   return (
     <div style={{ textAlign: "center", marginTop: "40px" }}>

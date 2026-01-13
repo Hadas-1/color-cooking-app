@@ -50,11 +50,6 @@ button {
   gap: 24px;
 }
 
-.recipe-link:hover {
-  background: #1a1a1a !important;
-  color: #ffffff !important;
-}
-
 /* Ensure color circles stay perfectly round on all devices */
 .color-circle {
   aspect-ratio: 1;

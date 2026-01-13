@@ -23,7 +23,7 @@ export default function QRCodeComponent({ url }: { url: string }) {
       const updateQrSize = () => {
         const mobile = window.innerWidth <= 480;
         setIsMobile(mobile);
-        setQrSize(mobile ? 150 : 140); // Smaller on desktop (140px), same on mobile (150px)
+        setQrSize(mobile ? 150 : 130); // Smaller on desktop (130px), same on mobile (150px)
         setQrPadding(mobile ? "12px" : "12px");
       };
       

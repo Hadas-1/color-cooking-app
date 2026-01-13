@@ -57,3 +57,20 @@ button {
   min-height: 0;
 }
 
+/* Responsive QR code sizing */
+.qr-code-wrapper {
+  max-width: 212px; /* 180px QR + 32px padding */
+}
+
+@media (max-width: 480px) {
+  .qr-code-wrapper {
+    max-width: 180px;
+    padding: 12px !important;
+  }
+  
+  .qr-code-wrapper svg {
+    width: 156px !important;
+    height: 156px !important;
+  }
+}
+

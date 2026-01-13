@@ -13,7 +13,7 @@ export default function HomePage() {
   }, []);
   return (
     <main className="container">
-      <div style={{ textAlign: "center", paddingTop: "60px", paddingBottom: "40px" }}>
+      <div style={{ textAlign: "center", paddingTop: "60px", paddingBottom: "32px" }}>
         <h1
           style={{
             margin: "0 0 12px",
@@ -32,7 +32,7 @@ export default function HomePage() {
 
       {mounted && <QRCodeComponent url={`/recipes/${recipe.id}/1`} />}
 
-      <div style={{ marginTop: "40px" }}>
+      <div style={{ marginTop: "32px", marginBottom: "40px" }}>
         <Link
           href={`/recipes/${recipe.id}/1`}
           style={{

@@ -20,7 +20,7 @@ export default function QRCodeComponent({ url }: { url: string }) {
 
   if (!mounted || !fullUrl) {
     return (
-      <div style={{ textAlign: "center", marginTop: "40px" }}>
+      <div style={{ textAlign: "center", marginTop: "32px", marginBottom: "32px" }}>
         <div
           style={{
             width: "200px",
@@ -38,22 +38,47 @@ export default function QRCodeComponent({ url }: { url: string }) {
     );
   }
 
+  // Determine QR code size based on screen width
+  const [qrSize, setQrSize] = useState(180);
+  const [qrPadding, setQrPadding] = useState("16px");
+  
+  useEffect(() => {
+    const updateQrSize = () => {
+      if (typeof window !== "undefined") {
+        const isMobile = window.innerWidth <= 480;
+        setQrSize(isMobile ? 150 : 180);
+        setQrPadding(isMobile ? "12px" : "16px");
+      }
+    };
+    
+    updateQrSize();
+    window.addEventListener('resize', updateQrSize);
+    return () => window.removeEventListener('resize', updateQrSize);
+  }, []);
+
   return (
-    <div style={{ textAlign: "center", marginTop: "40px" }}>
+    <div style={{ textAlign: "center", marginTop: "32px", marginBottom: "32px" }}>
       <div
+        className="qr-code-wrapper"
         style={{
           display: "inline-block",
-          padding: "16px",
+          padding: qrPadding,
           background: "#ffffff",
           borderRadius: "0",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          maxWidth: "100%"
         }}
       >
         <QRCode
           value={fullUrl}
-          size={180}
-          style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-          viewBox="0 0 180 180"
+          size={qrSize}
+          style={{ 
+            height: "auto", 
+            maxWidth: "100%", 
+            width: "100%",
+            display: "block"
+          }}
+          viewBox={`0 0 ${qrSize} ${qrSize}`}
         />
       </div>
       <p

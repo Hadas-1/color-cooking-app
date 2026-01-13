@@ -519,9 +519,90 @@ function IngredientBar({
   amount: string;
 }) {
   const [showTooltip, setShowTooltip] = useState(false);
+  const barRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+
+  // Close tooltip when clicking outside on mobile
+  useEffect(() => {
+    if (!showTooltip) return;
+
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (barRef.current && !barRef.current.contains(event.target as Node)) {
+        setShowTooltip(false);
+      }
+    };
+
+    // Use a small delay to avoid immediate closure
+    const timeoutId = setTimeout(() => {
+      document.addEventListener('click', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [showTooltip]);
+
+  // Calculate tooltip position to keep it within screen bounds
+  const getTooltipStyle = (): {
+    bottom: string;
+    left?: string;
+    right?: string;
+    transform: string;
+  } => {
+    if (!barRef.current) {
+      return {
+        bottom: "100%",
+        left: "50%",
+        transform: "translateX(-50%)"
+      };
+    }
+
+    const barRect = barRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    
+    // Estimate tooltip width (text length * approximate char width + padding)
+    const estimatedTooltipWidth = Math.min((displayName.length + amount.length + 5) * 7 + 24, 200);
+    
+    // Try centering first
+    const centerX = barRect.left + barRect.width / 2;
+    const leftPosition = centerX - estimatedTooltipWidth / 2;
+    const rightPosition = centerX + estimatedTooltipWidth / 2;
+    
+    // Check if tooltip would go off-screen
+    const padding = 12; // Padding from screen edge
+    
+    if (leftPosition < padding) {
+      // Too far left, align to left edge with padding
+      return {
+        bottom: "100%",
+        left: "0",
+        transform: "translateX(0)"
+      };
+    } else if (rightPosition > viewportWidth - padding) {
+      // Too far right, align to right edge with padding
+      return {
+        bottom: "100%",
+        right: "0",
+        transform: "translateX(0)"
+      };
+    } else {
+      // Center it
+      return {
+        bottom: "100%",
+        left: "50%",
+        transform: "translateX(-50%)"
+      };
+    }
+  };
+
+  const tooltipStyle = showTooltip ? getTooltipStyle() : { bottom: "100%", left: "50%", transform: "translateX(-50%)" };
 
   return (
     <div
+      ref={barRef}
       style={{
         width: `${widthPercent}%`,
         background: `rgb(${color.r}, ${color.g}, ${color.b})`,
@@ -532,17 +613,16 @@ function IngredientBar({
       }}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
+      onClick={() => setShowTooltip(!showTooltip)}
       onMouseMove={(e) => {
         e.currentTarget.style.opacity = "0.8";
       }}
     >
       {showTooltip && (
         <div
+          ref={tooltipRef}
           style={{
             position: "absolute",
-            bottom: "100%",
-            left: "50%",
-            transform: "translateX(-50%)",
             marginBottom: "8px",
             padding: "8px 12px",
             background: "#1a1a1a",
@@ -552,7 +632,8 @@ function IngredientBar({
             whiteSpace: "nowrap",
             zIndex: 1000,
             pointerEvents: "none",
-            borderRadius: "0"
+            borderRadius: "0",
+            ...tooltipStyle
           }}
         >
           {displayName}: {amount}
@@ -560,8 +641,9 @@ function IngredientBar({
             style={{
               position: "absolute",
               top: "100%",
-              left: "50%",
-              transform: "translateX(-50%)",
+              left: tooltipStyle.left === "50%" ? "50%" : (tooltipStyle.left === "0" ? "20px" : "auto"),
+              right: tooltipStyle.right === "0" ? "20px" : "auto",
+              transform: tooltipStyle.left === "50%" ? "translateX(-50%)" : "none",
               width: 0,
               height: 0,
               borderLeft: "6px solid transparent",

@@ -170,6 +170,20 @@ export default function RecipeStepClient({ params }: { params: { id: string; ste
     router.push(`/recipes/${recipe.id}/${bounded + 1}`);
   };
 
+  const handleStartOver = () => {
+    // Clear all stored images and session data
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(storageKey(recipe.id));
+    }
+    // Reset session state
+    setSession({
+      currentStep: 0,
+      steps: {}
+    });
+    // Navigate to step 1
+    router.push(`/recipes/${recipe.id}/1`);
+  };
+
   // Swipe gesture handlers
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -469,34 +483,53 @@ export default function RecipeStepClient({ params }: { params: { id: string; ste
         >
           ← Back
         </button>
-        <button
-          onClick={() => handleNavigate(stepIndex + 1)}
-          disabled={stepIndex === totalSteps - 1}
-          style={{
-            background: "transparent",
-            color: stepIndex === totalSteps - 1 ? "#ccc" : "#1a1a1a",
-            padding: "14px 20px",
-            fontSize: "15px",
-            fontWeight: 300,
-            letterSpacing: "0.5px",
-            border: "none",
-            cursor: stepIndex === totalSteps - 1 ? "not-allowed" : "pointer",
-            opacity: stepIndex === totalSteps - 1 ? 0.3 : 1,
-            transition: "all 0.2s ease"
-          }}
-          onMouseEnter={(e) => {
-            if (stepIndex < totalSteps - 1) {
+        {stepIndex === totalSteps - 1 ? (
+          <button
+            onClick={handleStartOver}
+            style={{
+              background: "transparent",
+              color: "#1a1a1a",
+              padding: "14px 20px",
+              fontSize: "15px",
+              fontWeight: 300,
+              letterSpacing: "0.5px",
+              border: "none",
+              cursor: "pointer",
+              transition: "all 0.2s ease"
+            }}
+            onMouseEnter={(e) => {
               e.currentTarget.style.color = "#666";
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (stepIndex < totalSteps - 1) {
+            }}
+            onMouseLeave={(e) => {
               e.currentTarget.style.color = "#1a1a1a";
-            }
-          }}
-        >
-          Next →
-        </button>
+            }}
+          >
+            Start over
+          </button>
+        ) : (
+          <button
+            onClick={() => handleNavigate(stepIndex + 1)}
+            style={{
+              background: "transparent",
+              color: "#1a1a1a",
+              padding: "14px 20px",
+              fontSize: "15px",
+              fontWeight: 300,
+              letterSpacing: "0.5px",
+              border: "none",
+              cursor: "pointer",
+              transition: "all 0.2s ease"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "#666";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "#1a1a1a";
+            }}
+          >
+            Next →
+          </button>
+        )}
       </div>
     </main>
   );
